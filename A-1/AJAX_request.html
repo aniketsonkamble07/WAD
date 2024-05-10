@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Display Local File Contents</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f0f0f0;
+        padding: 20px;
+        text-align: center;
+    }
+
+    h2 {
+        margin-bottom: 20px;
+    }
+
+    #loadFileButton {
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin-bottom: 20px;
+        cursor: pointer;
+        border-radius: 5px;
+    }
+
+    #fileContents {
+        margin-top: 20px;
+        padding: 20px;
+        background-color: white;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        text-align: left;
+    }
+</style>
+</head>
+<body>
+
+<h2>Display Local File Contents</h2>
+<button id="loadFileButton">Load File Contents</button>
+<div id="fileContents"></div>
+
+<script>
+document.getElementById('loadFileButton').addEventListener('click', function() {
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4) {
+            if (xhr.status === 200) {
+                document.getElementById('fileContents').textContent = xhr.responseText;
+            } else {
+                console.error('Failed to load the file. Status code: ' + xhr.status);
+            }
+        }
+    };
+    xhr.onerror = function() {
+        console.error('An error occurred while making the request.');
+    };
+    xhr.open('GET', 'file.txt', true);
+    xhr.send();
+});
+</script>
+
+</body>
+</html>

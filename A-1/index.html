@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>User Registration</title>
+<link rel="stylesheet" href="index.css">
+</head>
+<body>
+
+<div id="registrationContainer">
+    <h2>User Registration</h2>
+    <form id="registrationForm">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required><br>
+        
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required><br>
+        
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required><br>
+
+        <label for="branch">Branch:</label><br>
+        <select id='branch' name='branch' required>
+            <option value='IT'>Information Technology</option>
+            <option value='CS'>Computer Science</option>
+            <option value='EE'>Electrical Engineering</option>
+            <option value='ENTC'>ENTC</option>
+            <option value='ME'>Mechanical Engineering</option>
+            <option value='Printing'>Printing</option>
+            <option value='AIDS'>AIDS</option>
+        </select>
+
+        <br>
+        <label for="year">Class:</label><br>
+        <select id='year' name='year' required>
+            <option value='FE'>First Year</option>
+            <option value='SE'>Second Year</option>
+            <option value='TE'>Third Year</option>
+            <option value='BE'>Final Year</option>
+        </select>
+        <br>
+        <label>Gender:</label><br>
+        <label><input type="radio" name="gender" value="male"> Male</label>
+        <label><input type="radio" name="gender" value="female"> Female</label>
+        <br>
+        <label for="">Hobbies</label>
+        <label class="custom-checkbox">
+            <input type="checkbox" name="hobbies" value="reading">
+            <span class="checkmark"></span>
+            Reading
+        </label>
+        
+        <label class="custom-checkbox">
+            <input type="checkbox" name="hobbies" value="sports">
+            <span class="checkmark"></span>
+            Sports
+        </label>
+        
+        <label class="custom-checkbox">
+            <input type="checkbox" name="hobbies" value="music">
+            <span class="checkmark"></span>
+            Music
+        </label>
+        
+        <label class="custom-checkbox">
+            <input type="checkbox" name="hobbies" value="travel">
+            <span class="checkmark"></span>
+            Travel
+        </label>
+        
+        <button type="submit">Register</button>
+    </form>
+</div>
+
+<script>
+    document.getElementById('registrationForm').addEventListener('submit', function(event) {
+    event.preventDefault(); // Prevent form submission
+    
+    // Get form values
+    var username = document.getElementById('username').value;
+    var email = document.getElementById('email').value;
+    var password = document.getElementById('password').value;
+    var branch = document.getElementById('branch').value;
+    var year = document.getElementById('year').value;
+    var gender = document.querySelector('input[name="gender"]:checked').value;
+    var hobbies = [];
+    var checkboxes = document.querySelectorAll('input[name="hobbies"]:checked');
+    checkboxes.forEach(function(checkbox) {
+        hobbies.push(checkbox.value);
+    });
+    
+    // Create user object
+    var user = {
+        username: username,
+        email: email,
+        password: password,
+        branch: branch,
+        year: year,
+        gender: gender,
+        hobbies: hobbies
+    };
+    
+    // Check if local storage is supported
+    if (typeof(Storage) !== "undefined") {
+        // Get existing users from local storage or initialize empty array
+        var users = JSON.parse(localStorage.getItem('users')) || [];
+        
+        // Push new user to the array
+        users.push(user);
+        
+        // Store updated users array in local storage
+        localStorage.setItem('users', JSON.stringify(users));
+        
+        // Redirect to new page to display registered users
+        window.location.href = 'display_user.html';
+    } else {
+        // Local storage not supported
+        alert("Sorry, your browser does not support local storage. Registration data cannot be saved.");
+    }
+});
+
+</script>
+
+</body>
+</html>
